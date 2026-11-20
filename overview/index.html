@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#14172d">
+  <meta name="theme-color" content="#151a35">
   <meta name="description" content="See how Kybernate lets AI models share NVIDIA GPUs on Kubernetes by moving idle models from GPU memory to RAM or local storage and resuming them on demand.">
   <title>Kybernate — GPU hibernation for Kubernetes</title>
   <link rel="icon" type="image/svg+xml" href="../mark.svg">
@@ -14,15 +14,14 @@
   <a class="skip" href="#overview">Skip to overview</a>
   <header class="site-header">
     <div class="shell header-row">
-      <a class="brand" href="#overview" aria-label="Kybernate overview"><img src="../mark.svg" width="38" height="38" alt="">Kybernate</a>
+      <a class="brand" href="#overview" aria-label="Kybernate overview"><img src="../mark.svg" width="34" height="34" alt="">Kybernate</a>
       <nav class="primary" aria-label="Main navigation">
         <a href="#overview" data-nav="overview">Overview</a>
-        <a href="#hot" data-nav="states">Model states</a>
+        <a href="#hot" data-nav="hot">GPU memory</a>
+        <a href="#warm" data-nav="warm">Host RAM</a>
+        <a href="#cold" data-nav="cold">Local NVMe</a>
       </nav>
-      <a class="github-link" href="https://github.com/kybernate">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.83c.56.1.77-.24.77-.54v-2.1c-3.14.68-3.8-1.33-3.8-1.33-.51-1.31-1.25-1.66-1.25-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.73 1.17 1.73 1.17 1.01 1.73 2.65 1.23 3.3.94.1-.73.4-1.23.72-1.51-2.51-.28-5.15-1.25-5.15-5.57 0-1.23.44-2.24 1.16-3.03-.11-.29-.5-1.44.12-3 0 0 .95-.3 3.09 1.16a10.66 10.66 0 0 1 5.62 0c2.14-1.46 3.08-1.16 3.08-1.16.62 1.56.24 2.71.12 3 .72.79 1.16 1.8 1.16 3.03 0 4.33-2.65 5.28-5.18 5.56.41.35.77 1.04.77 2.1v3.09c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg>
-        <span>GitHub</span>
-      </a>
+      <a class="github-link" href="https://github.com/kybernate">GitHub</a>
     </div>
   </header>
 
@@ -31,157 +30,65 @@
       <section class="intro chapter" aria-labelledby="intro-title">
         <div class="chapter-body">
           <p class="eyebrow"><span class="rule" aria-hidden="true"></span>GPU inference on Kubernetes</p>
-          <h1 id="intro-title">Let models sleep.<br><em>Keep GPUs busy.</em></h1>
+          <h1 id="intro-title">Let models sleep.<br><span>Keep GPUs busy.</span></h1>
           <p class="lede">Kybernate saves an idle AI model’s running state so another model can use the same NVIDIA GPU. When the sleeping model gets a request, it picks up where it left off and skips a full cold start.</p>
-          <a class="explore" href="#hot"><span class="layers-icon" aria-hidden="true"></span>Explore the model states</a>
+          <div class="intro-actions">
+            <a class="explore" href="#hot">Explore the model states</a>
+            <a class="secondary-action" href="#warm">View resume targets</a>
+          </div>
         </div>
       </section>
 
       <figure class="figure" aria-label="The Kybernate logo and its three model states">
-        <svg class="ky-stack-art" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 580" aria-hidden="true" focusable="false">
-          <style>
-            .ky-stack-art .stack-shell {
-              opacity: calc(1 - .84 * var(--spread, 0));
-              transform-origin: 512px 360px;
-              transform: translateY(calc(-30px * var(--spread, 0))) scale(calc(1 - .09 * var(--spread, 0)));
-            }
-            .ky-stack-art .stack-moon { transform: translate(calc(18px * var(--spread, 0)), calc(-128px * var(--spread, 0))); }
-            .ky-stack-art .stack-hot { --ink: var(--hot-active, 0); transform: translate(calc(18px * var(--spread, 0)), calc(-99px * var(--spread, 0))); }
-            .ky-stack-art .stack-warm { --ink: var(--warm-active, 0); }
-            .ky-stack-art .stack-cold { --ink: var(--cold-active, 0); transform: translate(calc(-20px * var(--spread, 0)), calc(91px * var(--spread, 0))); }
-            .ky-stack-art .stack-surface {
-              transform-origin: 512px 370px;
-              transform: scaleX(calc(1 + .09 * var(--spread, 0) + .035 * var(--ink, 0)));
-            }
-            .ky-stack-art .stack-bevel { opacity: calc(.5 * var(--spread, 0) + .5 * var(--ink, 0)); }
-            .ky-stack-art .stack-etch { opacity: calc(.67 * var(--spread, 0) + .33 * var(--ink, 0)); }
-            .ky-stack-art .stack-cut-fill { opacity: var(--spread, 0); }
-            .ky-stack-art .stack-guides { opacity: calc(.48 * var(--spread, 0)); }
-            .ky-stack-art .stack-active { opacity: var(--ink, 0); }
-            .ky-stack-art .stack-active, .ky-stack-art .stack-bevel { transition: opacity .18s linear; }
-            @media (prefers-reduced-motion: reduce) {
-              .ky-stack-art .stack-active, .ky-stack-art .stack-bevel { transition: none; }
-            }
-          </style>
+        <svg class="ky-stack-art" xmlns="http://www.w3.org/2000/svg" viewBox="132 -20 760 760" aria-hidden="true" focusable="false">
           <defs>
-            <path id="ksa-badge" d="M512 77 746.55 189.95 804.48 443.76 642.16 647.29H381.84L219.52 443.76 277.45 189.95Z"/>
-            <path id="ksa-top" d="M512 292 697 370 512 448 327 370Z"/>
-            <path id="ksa-left" d="M327 370 512 448V492L327 414Z"/>
-            <path id="ksa-right" d="M512 448 697 370V414L512 492Z"/>
-            <path id="ksa-edge" d="m329 370 183 77 183-77m-183 78v42"/>
-            <path id="ksa-rim" d="m512 301 164 69-164 69-164-69Z"/>
-            <mask id="ksa-notch" maskUnits="userSpaceOnUse" x="192" y="40" width="640" height="640">
-              <rect x="192" y="40" width="640" height="640" fill="white"/>
-              <circle cx="520" cy="250" r="82" fill="black"/>
+            <mask id="h-moon-cut" maskUnits="userSpaceOnUse" x="0" y="-200" width="1024" height="1200">
+              <rect x="0" y="-200" width="1024" height="1200" fill="#fff"/>
+              <circle cx="556" cy="224" r="52" fill="#000"/>
             </mask>
-            <mask id="ksa-moon-cut" maskUnits="userSpaceOnUse" x="192" y="40" width="640" height="640">
-              <rect x="192" y="40" width="640" height="640" fill="white"/>
-              <circle cx="556" cy="224" r="52" fill="black"/>
+            <mask id="h-notch" maskUnits="userSpaceOnUse" x="0" y="-200" width="1024" height="1200">
+              <rect x="0" y="-200" width="1024" height="1200" fill="#fff"/>
+              <circle cx="520" cy="250" r="82" fill="#000"/>
             </mask>
-            <radialGradient id="ksa-haze">
-              <stop stop-color="#7786cf" stop-opacity=".19"/>
-              <stop offset=".6" stop-color="#58669d" stop-opacity=".075"/>
-              <stop offset="1" stop-color="#58669d" stop-opacity="0"/>
+            <radialGradient id="h-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0" stop-color="#d64f2d" stop-opacity=".35"/>
+              <stop offset="1" stop-color="#d64f2d" stop-opacity="0"/>
             </radialGradient>
-            <radialGradient id="ksa-grid-fade">
-              <stop stop-color="white"/>
-              <stop offset=".52" stop-color="white" stop-opacity=".8"/>
-              <stop offset="1" stop-color="black"/>
-            </radialGradient>
-            <mask id="ksa-floor" maskUnits="userSpaceOnUse" x="16" y="298" width="688" height="278">
-              <ellipse cx="360" cy="439" rx="343" ry="135" fill="url(#ksa-grid-fade)"/>
-            </mask>
-            <pattern id="ksa-grid" width="68" height="28" patternUnits="userSpaceOnUse">
-              <path d="M0 14 34 0 68 14 34 28Z" fill="none" stroke="#7d8dc2" stroke-opacity=".36" stroke-width=".7"/>
-            </pattern>
-            <linearGradient id="ksa-polish" x1="0" x2="1" y1="0" y2="1">
-              <stop stop-color="#fff9df" stop-opacity=".68"/>
-              <stop offset=".38" stop-color="#ffefd2" stop-opacity=".21"/>
-              <stop offset="1" stop-color="#8796e3" stop-opacity=".04"/>
-            </linearGradient>
-            <linearGradient id="ksa-ground-ink">
-              <stop stop-color="#7887bb" stop-opacity=".08"/>
-              <stop offset=".27" stop-color="#8b98c8" stop-opacity=".46"/>
-              <stop offset=".71" stop-color="#aaa4c4" stop-opacity=".38"/>
-              <stop offset="1" stop-color="#e9a277" stop-opacity=".09"/>
-            </linearGradient>
-            <pattern id="ksa-cold-engraving" width="34" height="14" patternUnits="userSpaceOnUse">
-              <path d="m0 7 17-7L34 7 17 14Z" fill="none" stroke="#a6b5fa" stroke-width="1.3"/>
-            </pattern>
-            <clipPath id="ksa-inner"><use href="#ksa-rim"/></clipPath>
           </defs>
-
-          <ellipse cx="362" cy="303" rx="309" ry="270" fill="url(#ksa-haze)"/>
-          <rect x="16" y="298" width="688" height="278" fill="url(#ksa-grid)" mask="url(#ksa-floor)"/>
-          <g fill="none" stroke="url(#ksa-ground-ink)">
-            <ellipse cx="360" cy="438" rx="327" ry="113" stroke-width="1.2"/>
-            <ellipse cx="360" cy="438" rx="306" ry="105" stroke-dasharray="2 7"/>
-            <ellipse cx="360" cy="438" rx="270" ry="91"/>
+          <circle class="hero-glow" cx="512" cy="370" r="360" fill="url(#h-glow)"/>
+          <g class="orbit" fill="none">
+            <ellipse cx="512" cy="380" rx="350" ry="120" />
+            <ellipse cx="512" cy="380" rx="300" ry="300" />
           </g>
-
-          <g transform="translate(362 273) scale(.78) translate(-512 -360)">
-            <g class="stack-shell">
-              <use href="#ksa-badge" fill="#2e365f" stroke="#2e365f" stroke-width="40" stroke-linejoin="round"/>
+          <g id="h-hept">
+            <polygon points="512,77 746.55,189.95 804.48,443.76 642.16,647.29 381.84,647.29 219.52,443.76 277.45,189.95" fill="#2e365f" stroke="#2e365f" stroke-width="40" stroke-linejoin="round"/>
+            <polygon class="hept-line" points="512,77 746.55,189.95 804.48,443.76 642.16,647.29 381.84,647.29 219.52,443.76 277.45,189.95" fill="none" stroke-width="3" stroke-linejoin="round"/>
+          </g>
+          <g class="stack-cold">
+            <g class="slab">
+              <polygon points="512,292 697,370 512,448 327,370" fill="#8590c9"/>
+              <polygon class="shade" points="512,292 697,370 512,448 327,370" fill="#171c38"/>
+              <polygon points="327,370 512,448 512,492 327,414" fill="#6f7bb8"/>
+              <polygon points="512,448 697,370 697,414 512,492" fill="#4b5690"/>
             </g>
-            <g class="stack-guides" fill="none" stroke="#a2addc" stroke-width="1.25" stroke-dasharray="4 7">
-              <path d="M345 267 326 430 307 582M715 267 696 430 677 582M530 349 512 506 492 658"/>
+          </g>
+          <g class="stack-warm">
+            <g class="slab">
+              <polygon points="512,292 697,370 512,448 327,370" fill="#f8b375"/>
+              <polygon class="shade" points="512,292 697,370 512,448 327,370" fill="#171c38"/>
+              <polygon points="327,370 512,448 512,492 327,414" fill="#f0913f"/>
+              <polygon points="512,448 697,370 697,414 512,492" fill="#d2732a"/>
             </g>
-
-            <g class="stack-cold">
-              <g transform="translate(0 120)">
-                <g class="stack-surface">
-                  <use href="#ksa-top" fill="#171c38"/>
-                  <use href="#ksa-left" fill="#6f7bb8"/>
-                  <use href="#ksa-right" fill="#4b5690"/>
-                  <use class="stack-active" href="#ksa-top" fill="#5565aa"/>
-                  <use class="stack-etch" href="#ksa-rim" fill="url(#ksa-cold-engraving)"/>
-                  <g class="stack-bevel" fill="none" stroke="#becaff">
-                    <use href="#ksa-rim" stroke-width="1.3"/>
-                    <use href="#ksa-edge" stroke-width="2"/>
-                  </g>
-                </g>
-              </g>
+          </g>
+          <g class="stack-hot">
+            <g class="slab" mask="url(#h-notch)">
+              <polygon points="512,292 697,370 512,448 327,370" fill="#e8643d"/>
+              <polygon points="327,370 512,448 512,492 327,414" fill="#d64f2d"/>
+              <polygon points="512,448 697,370 697,414 512,492" fill="#a93a1e"/>
             </g>
-            <g class="stack-warm">
-              <g transform="translate(0 60)">
-                <g class="stack-surface">
-                  <use href="#ksa-top" fill="#171c38"/>
-                  <use href="#ksa-left" fill="#f0913f"/>
-                  <use href="#ksa-right" fill="#d2732a"/>
-                  <use class="stack-active" href="#ksa-top" fill="#92572e"/>
-                  <g class="stack-etch" fill="none" stroke="#f5b778" stroke-width="1.65" stroke-linejoin="round">
-                    <path d="m512 322 82 35-25 11-82-35Zm-37 16 82 35-25 11-82-35Zm-38 16 82 35-25 11-82-35Z"/>
-                    <path d="m610 364 27 12-96 40-27-11" stroke-dasharray="3 6"/>
-                  </g>
-                  <g class="stack-bevel" fill="none" stroke="#ffbf79">
-                    <use href="#ksa-rim" stroke-width="1.3"/>
-                    <use href="#ksa-edge" stroke-width="2"/>
-                  </g>
-                </g>
-              </g>
-            </g>
-            <g class="stack-hot">
-              <g class="stack-surface">
-                <use class="stack-cut-fill" href="#ksa-top" fill="#e8643d"/>
-                <g mask="url(#ksa-notch)">
-                  <use href="#ksa-top" fill="#e8643d"/>
-                  <use href="#ksa-left" fill="#d64f2d"/>
-                  <use href="#ksa-right" fill="#a93a1e"/>
-                </g>
-                <use class="stack-active" href="#ksa-top" fill="url(#ksa-polish)"/>
-                <g class="stack-etch" fill="none" stroke="#ffc8a0" stroke-width="1.5" stroke-linejoin="round" clip-path="url(#ksa-inner)">
-                  <path d="m512 344 62 26-62 26-62-26Zm0 7 45 19-45 19-45-19Z"/>
-                  <path d="m483 356-43-18-38 15m65 10-52-22m39 27-30-12-27 11-40-17m129 35-29 12-39-16-38 16m151-12 35 15 48-20 42 18m-113-19 40 17 47-20 40 17m-114-24 39-16 26 11 47-20m-120 19 37-16-19-8 38-16"/>
-                </g>
-                <g class="stack-bevel" fill="none" stroke="#ffd2ac">
-                  <use href="#ksa-rim" stroke-width="1.3"/>
-                  <use href="#ksa-edge" stroke-width="2"/>
-                </g>
-              </g>
-            </g>
-            <g class="stack-moon">
-              <circle cx="520" cy="250" r="62" fill="#f5f1ea" mask="url(#ksa-moon-cut)"/>
-            </g>
+          </g>
+          <g class="stack-moon">
+            <circle cx="520" cy="250" r="62" fill="#f5f1ea" mask="url(#h-moon-cut)"/>
           </g>
         </svg>
         <figcaption>

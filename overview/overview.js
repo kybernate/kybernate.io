@@ -36,7 +36,7 @@
     activeIndex = current;
     figure.dataset.state = chapters[current].id || 'overview';
     keyLinks.forEach((link, i) => markCurrent(link, i + 1 === current));
-    navLinks.forEach(link => markCurrent(link, link.dataset.nav === (current ? 'states' : 'overview')));
+    navLinks.forEach(link => markCurrent(link, link.dataset.nav === figure.dataset.state));
   }
 
   function schedule() {
