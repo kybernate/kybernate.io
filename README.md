@@ -1,6 +1,17 @@
 # Kybernate
 
-The static coming-soon page for Kybernate, a project by CloudCourse GmbH.
+The static website for Kybernate, a project by CloudCourse GmbH.
+
+- [Coming-soon page](./index.html)
+- [English overview and interactive model states](./overview/index.html)
+
+## Authorship and licensing
+
+The site was authored by Andre Lohmann (<lohmann.andre@gmail.com>) and is published by [CloudCourse GmbH](https://cloudcourse.de/).
+
+© 2026 CloudCourse GmbH. All rights reserved.
+
+The overview includes two typefaces under the SIL Open Font License 1.1. The font licenses and author credits are included for [DM Sans](./overview/fonts/dm-sans-OFL.txt) and [Instrument Serif](./overview/fonts/instrument-serif-OFL.txt).
 
 ## GitHub Pages
 
