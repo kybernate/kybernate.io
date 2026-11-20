@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#151a35">
+  <meta name="description" content="Kybernate is coming soon. A project by CloudCourse GmbH.">
+  <title>Kybernate — Coming Soon</title>
+  <link rel="icon" type="image/svg+xml" href="./mark.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./motion.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#footer">Skip to contact and legal links</a>
+
+  <main>
+    <section class="showcase" data-showcase aria-labelledby="coming-soon">
+      <span class="showcase-anchor" id="unfold" aria-hidden="true"></span>
+      <div class="stage" data-stage>
+        <header class="brand shell">
+          <img src="./mark.svg" width="36" height="36" alt="">
+          <span>Kybernate</span>
+        </header>
+
+        <div class="hero shell">
+          <h1 id="coming-soon" aria-label="Kybernate is coming soon">Coming <span>soon.</span></h1>
+          <div class="artwork" aria-hidden="true">
+            <svg class="logo-scene" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 720" aria-hidden="true" focusable="false">
+              <defs>
+                <mask id="scene-moon-cut" maskUnits="userSpaceOnUse" x="192" y="40" width="640" height="640">
+                  <rect x="192" y="40" width="640" height="640" fill="white"/>
+                  <circle cx="556" cy="224" r="52" fill="black"/>
+                </mask>
+                <mask id="scene-layer-notch" maskUnits="userSpaceOnUse" x="192" y="40" width="640" height="640">
+                  <rect x="192" y="40" width="640" height="640" fill="white"/>
+                  <circle cx="520" cy="250" r="82" fill="black"/>
+                </mask>
+                <radialGradient id="scene-aura">
+                  <stop stop-color="#6f7bb8" stop-opacity=".22"/>
+                  <stop offset=".62" stop-color="#6f7bb8" stop-opacity=".08"/>
+                  <stop offset="1" stop-color="#6f7bb8" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="scene-orbit-ink" x1="0" x2="1" y1="0" y2=".6">
+                  <stop stop-color="#6f7bb8" stop-opacity=".17"/>
+                  <stop offset=".35" stop-color="#8993c6" stop-opacity=".55"/>
+                  <stop offset=".73" stop-color="#f0913f" stop-opacity=".48"/>
+                  <stop offset="1" stop-color="#6f7bb8" stop-opacity=".12"/>
+                </linearGradient>
+                <polygon id="scene-shell" points="512,77 746.55,189.95 804.48,443.76 642.16,647.29 381.84,647.29 219.52,443.76 277.45,189.95"/>
+                <path id="scene-top-plane" d="M512 292 697 370 512 448 327 370Z"/>
+                <path id="scene-left-plane" d="M327 370 512 448 512 492 327 414Z"/>
+                <path id="scene-right-plane" d="M512 448 697 370 697 414 512 492Z"/>
+              </defs>
+
+              <circle cx="360" cy="360" r="350" fill="url(#scene-aura)"/>
+              <g fill="none" stroke="#6f7bb8">
+                <circle cx="360" cy="360" r="306" opacity=".17"/>
+                <circle cx="360" cy="360" r="285" stroke-dasharray="1 9" opacity=".35"/>
+                <circle cx="360" cy="360" r="250" opacity=".14"/>
+              </g>
+              <g data-orbits="">
+                <g transform="rotate(-25 360 360)">
+                  <ellipse cx="360" cy="360" rx="330" ry="173" fill="none" stroke="url(#scene-orbit-ink)" stroke-width="1.3"/>
+                  <circle cx="30" cy="360" r="4" fill="#f0913f"/>
+                  <circle cx="30" cy="360" r="10" fill="none" stroke="#f0913f" opacity=".32"/>
+                  <circle cx="690" cy="360" r="2.5" fill="#8a95cf"/>
+                </g>
+                <g transform="rotate(49 360 360)">
+                  <ellipse cx="360" cy="360" rx="290" ry="186" fill="none" stroke="#8993c6" stroke-opacity=".18"/>
+                  <circle cx="650" cy="360" r="3.25" fill="#a0a9d6"/>
+                </g>
+              </g>
+
+              <g transform="translate(360 356) scale(.71) translate(-512 -360)">
+                <g data-shell="">
+                  <use href="#scene-shell" fill="#2e365f" stroke="#2e365f" stroke-width="40" stroke-linejoin="round"/>
+                  <use href="#scene-shell" fill="none" stroke="#8993c6" stroke-opacity=".32" stroke-width="1.1"
+                       transform="translate(512 360) scale(1.062) translate(-512 -360)" stroke-linejoin="round"/>
+                </g>
+                <g data-cold="">
+                  <g transform="translate(0 120)">
+                    <use href="#scene-top-plane" fill="#171c38"/>
+                    <use href="#scene-left-plane" fill="#6f7bb8"/>
+                    <use href="#scene-right-plane" fill="#4b5690"/>
+                  </g>
+                </g>
+                <g data-warm="">
+                  <g transform="translate(0 60)">
+                    <use href="#scene-top-plane" fill="#171c38"/>
+                    <use href="#scene-left-plane" fill="#f0913f"/>
+                    <use href="#scene-right-plane" fill="#d2732a"/>
+                  </g>
+                </g>
+                <g data-hot="">
+                  <g mask="url(#scene-layer-notch)">
+                    <use href="#scene-top-plane" fill="#e8643d"/>
+                    <use href="#scene-left-plane" fill="#d64f2d"/>
+                    <use href="#scene-right-plane" fill="#a93a1e"/>
+                  </g>
+                </g>
+                <g data-moon="">
+                  <circle cx="520" cy="250" r="62" fill="#f5f1ea" mask="url(#scene-moon-cut)"/>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="scroll-row shell">
+          <a class="scroll-cue" href="#unfold">
+            <span class="scroll-icon" aria-hidden="true"></span>
+            Scroll to unfold
+          </a>
+          <span class="scroll-progress" data-scroll-progress aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="footer" tabindex="-1">
+    <div class="footer-inner shell">
+      <div class="credits">
+        <p>A project by <a href="https://cloudcourse.de/">CloudCourse GmbH</a></p>
+        <p class="copyright">© 2026 CloudCourse GmbH. All rights reserved.</p>
+      </div>
+      <nav class="footer-links" aria-label="Contact and legal information">
+        <a href="https://cloudcourse.de/kontakt" hreflang="de">Contact</a>
+        <a href="https://cloudcourse.de/legal/impressum" hreflang="de">Legal Notice</a>
+        <a href="https://cloudcourse.de/legal/datenschutz" hreflang="de">Privacy Policy</a>
+        <a href="https://cloudcourse.de/legal/agb" hreflang="de">Terms and Conditions</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
