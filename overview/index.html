@@ -209,7 +209,10 @@
           <h2 id="warm-title">Make room for <em>another model.</em></h2>
           <p class="lede">When requests stop, NVIDIA’s <code>cuda-checkpoint</code> saves the model’s GPU state in the node’s main memory. Another model can use the GPU while the first one sleeps.</p>
           <p class="resource"><span>GPU</span> Available to other models</p>
-          <p class="measurement">In one RTX 3060 test, a workload with 2 GB in GPU memory resumed from RAM in about <strong>1.2 seconds</strong>.</p>
+          <p class="estimate">
+            <strong>Estimated resume from RAM · 2–8 seconds</strong>
+            For Gemma 4 12B INT4, this assumes 20.8 GiB of GPU state in fast DDR5 RAM and an available RTX PRO 6000 Blackwell workstation GPU on PCIe 5.0 ×16.
+          </p>
         </div>
       </section>
 
@@ -219,6 +222,10 @@
           <h2 id="cold-title">Save it for <em>later.</em></h2>
           <p class="lede">For a longer pause, CRIU saves the container’s processes to local storage alongside the GPU state. This frees host RAM, too. On the next request, the proxy can queue it while Kybernate restores the initialized model.</p>
           <p class="resource"><span>GPU + host RAM</span> Available to other models</p>
+          <p class="estimate">
+            <strong>Estimated restore from NVMe · 6–20 seconds</strong>
+            For Gemma 4 12B INT4, this assumes a 28 GiB checkpoint on a fast local NVMe SSD. The workstation reads it into DDR5 RAM, then restores the GPU state to an available RTX PRO 6000 Blackwell over PCIe 5.0 ×16.
+          </p>
         </div>
       </section>
     </div>
