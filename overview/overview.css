@@ -89,8 +89,8 @@ h1 em { font-size: 1.15em; }
 code { font: .89em var(--mono); color: var(--paper); }
 .resource { display: flex; align-items: baseline; flex-wrap: wrap; gap: .45rem .8rem; color: var(--paper); line-height: 1.45; margin-top: 1.25rem; }
 .resource span { font: .78rem var(--mono); color: var(--tone); }
-.estimate { margin-top: 1rem; max-width: 49ch; padding-inline-start: .85rem; border-inline-start: 2px solid var(--tone); font-size: 1rem; line-height: 1.55; color: var(--muted); }
-.estimate strong { display: block; margin-bottom: .2rem; color: var(--tone); }
+.resume-target { margin-top: .75rem; padding-inline-start: .75rem; border-inline-start: 2px solid var(--tone); font-size: .9375rem; line-height: 1.45; color: var(--muted); }
+.resume-target strong { display: block; color: var(--tone); }
 
 .figure {
   --spread: 1;
