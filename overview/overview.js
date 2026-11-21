@@ -4,10 +4,13 @@
   const tiers = chapters.slice(1);
   const keyLinks = [...figure.querySelectorAll('.layer-key a')];
   const navLinks = [...document.querySelectorAll('[data-nav]')];
+  const sections = [...document.querySelectorAll('.story-section')];
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let stops = [];
+  let sectionStops = [];
   let frame = 0;
   let activeIndex = -1;
+  let activeNav = '';
 
   const clamp = value => Math.max(0, Math.min(1, value));
   const smooth = value => value * value * (3 - 2 * value);
@@ -32,11 +35,17 @@
       const distance = Math.abs((reducedMotion.matches ? current : position) - (i + 1));
       figure.style.setProperty('--' + tier.id + '-active', clamp(1 - distance).toFixed(3));
     });
-    if (current === activeIndex) return;
-    activeIndex = current;
-    figure.dataset.state = chapters[current].id || 'overview';
-    keyLinks.forEach((link, i) => markCurrent(link, i + 1 === current));
-    navLinks.forEach(link => markCurrent(link, link.dataset.nav === figure.dataset.state));
+    if (current !== activeIndex) {
+      activeIndex = current;
+      figure.dataset.state = chapters[current].id || 'overview';
+      keyLinks.forEach((link, i) => markCurrent(link, i + 1 === current));
+    }
+    const section = sectionStops.findLastIndex(stop => y >= stop);
+    const nav = section < 0 ? figure.dataset.state : sections[section].id;
+    if (nav !== activeNav) {
+      activeNav = nav;
+      navLinks.forEach(link => markCurrent(link, link.dataset.nav === nav));
+    }
   }
 
   function schedule() {
@@ -51,9 +60,14 @@
       const target = chapter.getBoundingClientRect().top + window.scrollY - scrollMargin;
       return Math.min(maxScroll, Math.max(1, target));
     });
+    sectionStops = sections.map(section => {
+      const margin = parseFloat(getComputedStyle(section).scrollMarginTop) || 0;
+      return Math.min(maxScroll, section.getBoundingClientRect().top + window.scrollY - margin - 2);
+    });
     schedule();
   }
 
+  new ResizeObserver(measure).observe(document.querySelector('main'));
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', measure);
   window.addEventListener('pageshow', measure);

@@ -179,9 +179,20 @@ code { font: .89em var(--mono); color: var(--paper); }
   .footer-main { padding-block: 2rem; }
   .footer-legal { gap: .85rem; }
 }
+@media (max-width: 58rem) {
+  .primary a { padding-inline: .5rem; }
+  .primary [data-nav="hot"], .primary [data-nav="warm"], .primary [data-nav="cold"] { display: none; }
+}
 @media (max-width: 41rem) {
-  .primary { display: none; }
-  .github-link { margin-left: auto; }
+  .primary [data-nav="overview"], .nav-extension { display: none; }
+  .header-row { gap: .6rem; }
+}
+@media (max-width: 23rem) {
+  .header-row { width: calc(100% - 1rem); gap: .25rem; }
+  .header-row .brand { font-size: .8rem; }
+  .header-row .brand img { width: 26px; height: 26px; }
+  .primary a { padding-inline: .36rem; }
+  .github-link { padding-inline: .45rem; }
 }
 @media (max-height: 32rem) {
   .site-header, .figure { position: relative; top: auto; }
