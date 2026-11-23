@@ -21,7 +21,7 @@
         <a href="#overview" data-nav="overview">Overview</a>
         <a href="#hot" data-nav="hot">GPU memory</a>
         <a href="#warm" data-nav="warm">Host RAM</a>
-        <a href="#cold" data-nav="cold">Local NVMe</a>
+        <a href="#cold" data-nav="cold">Local storage</a>
         <a href="#timeline" data-nav="timeline">Timeline</a>
         <a href="#k3s" data-nav="k3s">K3s<span class="nav-extension">&nbsp;cluster</span></a>
       </nav>
@@ -96,11 +96,11 @@
           </g>
         </svg>
         <figcaption>
-          <span class="figure-caption">The moon marks hibernation. The layers show where the model lives.</span>
+          <span class="figure-caption">While one model sleeps in RAM or on disk, another can use the same GPU.</span>
           <nav class="layer-key" aria-label="Jump to a model state">
             <a class="tone-hot" href="#hot"><i aria-hidden="true"></i><span>Hot<small>GPU memory</small></span></a>
             <a class="tone-warm" href="#warm"><i aria-hidden="true"></i><span>Warm<small>Host RAM</small></span></a>
-            <a class="tone-cold" href="#cold"><i aria-hidden="true"></i><span>Cold<small>Local SSD</small></span></a>
+            <a class="tone-cold" href="#cold"><i aria-hidden="true"></i><span>Cold<small>Local storage</small></span></a>
           </nav>
         </figcaption>
       </figure>
@@ -129,7 +129,7 @@
 
       <section class="chapter tier tone-cold" id="cold" tabindex="-1" aria-labelledby="cold-title">
         <div class="chapter-body">
-          <p class="eyebrow"><span class="swatch" aria-hidden="true"></span>Cold <span class="divider">/</span> Local SSD</p>
+          <p class="eyebrow"><span class="swatch" aria-hidden="true"></span>Cold <span class="divider">/</span> Local storage</p>
           <h2 id="cold-title">Save it for <em>later.</em></h2>
           <p class="lede">For a longer pause, CRIU saves the container’s processes to local storage alongside the GPU state. This frees host RAM, too. On the next request, the proxy can queue it while Kybernate restores the initialized model.</p>
           <p class="resource"><span>GPU + host RAM</span> Available to other models</p>
