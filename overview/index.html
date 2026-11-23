@@ -163,7 +163,7 @@
           <div class="trace-plot">
             <div class="time-axis" aria-hidden="true"><span>0 s</span><span class="tick-full">60</span><span class="tick-early">5</span><span class="tick-full">120</span><span class="tick-early">10</span><span class="tick-full">180</span><span class="tick-early">15</span><span class="tick-full">240 s</span><span class="tick-early">20 s</span></div>
             <div class="trace-row start-row" style="--low: 215; --high: 215">
-              <div class="trace-label"><strong>Start from scratch</strong><span>Cold start · measured</span></div>
+              <div class="trace-label"><strong>Start from scratch</strong><span>External measurement</span></div>
               <div class="track" aria-hidden="true"><i></i></div>
               <strong class="trace-value">215 s</strong>
               <p>Start workers, load local weights, compile kernels and capture CUDA graphs.</p>
@@ -181,7 +181,7 @@
               <p>Read the local checkpoint, restore the process tree with CRIU, then restore the GPU state.</p>
             </div>
           </div>
-          <figcaption>The published cold start used the Server Edition with weights already on disk. The hatched bands show the Kybernate target windows with DDR5 RAM or local NVMe and PCIe 5.0 ×16. <a href="https://warmctl.io/blog/qwen38-27b-11-second-start-rtx-pro-6000/">Read the cold-start benchmark&nbsp;↗</a></figcaption>
+          <figcaption>The cold-start run used an RTX PRO 6000 Server Edition with the weights already on disk. The hatched bands show Kybernate’s resume targets with DDR5 RAM or local NVMe and PCIe 5.0 ×16.</figcaption>
         </figure>
         <div class="sheet phase-sheet">
           <div class="trace-heading">
